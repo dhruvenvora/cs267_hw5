@@ -167,7 +167,7 @@ function findDocumentsWithAtleastOneWord(&$word_map, &$keywords)
     $len = count($keywords);
     for($i=0;$i<$len;$i++){
         foreach($word_map[$keywords[$i]] as $docid => $pos){
-            
+            if()
         }
     }
 }

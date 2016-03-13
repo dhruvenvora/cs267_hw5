@@ -25,7 +25,7 @@ if (isset($argv) && count($argv) == 5) {
         $commonDocId = findCommonDocuments($word_map, $keywords);
         
         if(strcmp($rankingMethod, "cosine") == 0){
-            $cr = new CosineRank(count($files));
+            $cr = new CosineRank();
             $rankedDocs = $cr->rankCosine($word_map, $keywords, 0);
         } else {
             $pr = new ProximityRank(count($keywords));
