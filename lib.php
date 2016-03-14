@@ -1,4 +1,11 @@
 <?php
+namespace HW2_Group\Hw2_composer;
+
+use seekquarry\yioop\configs as SYC;
+use seekquarry\yioop\library as SYL;
+use seekquarry\yioop\library\PhraseParser;
+
+require_once 'vendor/autoload.php';
 /*
 This data structure stores the magnitude of vector for each 
 */
@@ -8,7 +15,7 @@ $docMagnitude = array();
 This function takes the list of files and an empty word map. It creates an 
 inverse index and maps list of files 
 */
-function createIndex(&$files, &$word_map){
+function createIndex(&$files, &$word_map, $tokenizationMethod){
     /*TODO: How to free up memory of doc_vector object is the question!
     http://stackoverflow.com/questions/584960/whats-better-at-freeing-memory-
     with-php-unset-or-var-null
@@ -19,13 +26,26 @@ function createIndex(&$files, &$word_map){
         $words = explode(" ", $content);
         $count = count($words);
         for ($j=0;$j<$count;$j++) {
-            $word = filter($words[$j]);
-            if ($word != null || $word != "") {
-                $offset = $j+1;//start the offset from 1 instead of 0
-                mapWord($word_map, $word, $offset, $fil);
-            }
+			$processedWord;
+			$word = filter($words[$j]);
+			if (strcmp($tokenizationMethod, "chargram") == 0) {
+				$processedWord = PhraseParser::getNGramsTerm(array($word),5, 0);
+			}
+			else if (strcmp($tokenizationMethod, "stem") == 0) {
+				$processedWord = PhraseParser::stemTerms(array($word),"en-US");
+			}
+			else {
+				$processedWord[$j] = $words[$j];
+			}
+			for ($index=0;$index<count($processedWord);$index++) {
+				$offset = $j + 1;
+				$f = $fil+1;
+				mapWord($word_map, $processedWord[$index], $offset, $f);
+			}
         }
     }
+	
+	#printMap($word_map);
 }
 
 /*

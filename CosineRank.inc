@@ -1,4 +1,5 @@
 <?php
+namespace HW2_Group\Hw2_composer;
 /*
 This class defines the methods used for calculating document ranks based on
 cosine ranking scheme.
@@ -12,9 +13,8 @@ class CosineRank
     */
     function __construct($fileCount) 
     {
-        $this::$totalDocs = $fileCount;
+        self::$totalDocs = $fileCount;
     }
-    
     /*
     This function calculates the rank of the documents based on the proximity 
     of the query words in the document.
@@ -24,12 +24,13 @@ class CosineRank
     */
     function rankCosine(&$word_map, &$words, $k)
     {
-        $rankedDocs = array();
+		$rankedDocs = array();
         
         $keyword_map = $this->selectUniqueKeywords($words);
-    
+	
         foreach($keyword_map as $word => $count){
             $docs = array_keys($word_map[$word]);
+			print_r ($word_map[$word]);
             $docCount = count($docs);
             for($j=2;$j<$docCount;$j++){
                 if(isset($this::$doc_map[$docs[$j]]) == false){
@@ -52,6 +53,7 @@ class CosineRank
     {
         $keywords_map = array();
         $len = count($words);
+		
         for($i=0;$i<$len;$i++){
             if(isset($keywords_map[$words[$i]]) == false){
                 $keywords_map[$words[$i]] = 1;
@@ -59,6 +61,7 @@ class CosineRank
                 $keywords_map[$words[$i]] = $keywords_map[$words[$i]] + 1;
             }
         }
+		
         return $keywords_map;
     }
     

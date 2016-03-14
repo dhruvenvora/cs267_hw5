@@ -1,4 +1,5 @@
 <?php
+namespace HW2_Group\Hw2_composer;
 /*
 This class defines the methods used for calculating document ranks based on
 proximity ranking scheme.

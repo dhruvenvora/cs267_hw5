@@ -1,7 +1,16 @@
 <?php
+namespace HW2_Group\Hw2_composer;
+
+
+use seekquarry\yioop\configs as SYC;
+use seekquarry\yioop\library as SYL;
+use seekquarry\yioop\library\PhraseParser;
+
 include("lib.php");
 require_once("ProximityRank.inc");
 require_once("CosineRank.inc");
+
+require_once 'vendor/autoload.php';
 
 /*
 This program builds an inverted index of the documents listed in a directory and
@@ -19,13 +28,24 @@ if (isset($argv) && count($argv) == 5) {
     $word_map = [];
     if (is_dir($dir)) {
         $files = glob($dir."/*.txt");
-        createIndex($files, $word_map);
+        createIndex($files, $word_map, $tokenizationMethod);
         
         $keywords = explode(" ", $query);
+		
+		if ($tokenizationMethod == 'chargram') {
+			$keywords = PhraseParser::getNGramsTerm($keywords,5,1);
+		}
+		else if ($tokenizationMethod == 'stem') {
+			$keywords = PhraseParser::stemTerms($keywords,"en-US");
+		}
+		
         $commonDocId = findCommonDocuments($word_map, $keywords);
-        
-        if(strcmp($rankingMethod, "cosine") == 0){
-            $cr = new CosineRank(count($files));
+		print_r ($commonDocId);
+		
+        if ($rankingMethod == 'cosine'){
+			$fileCount = count($files);
+            $cr = new CosineRank($fileCount);
+			return;
             $rankedDocs = $cr->rankCosine($word_map, $keywords, 0);
         } else {
             $pr = new ProximityRank(count($keywords));
