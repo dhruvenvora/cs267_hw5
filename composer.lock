@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "db9c2033af0f7c7bce335abe0b6308fb",
+    "content-hash": "e583441fa3279a5d69f1b38932e90e18",
+    "packages": [
+        {
+            "name": "seekquarry/yioop",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "http://seekquarry.com/git/yioop.git",
+                "reference": "b354d86a1bd22066fac2f0235c9d81a4112d40b4"
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-gd": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-pcre": "*",
+                "ext-pdo": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-spl": "*",
+                "ext-zip": "*",
+                "lib-curl": "*",
+                "lib-libxml": "*",
+                "lib-pcre": "*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "seekquarry\\yioop\\": [
+                        "work_directory/app/",
+                        "src/"
+                    ],
+                    "seekquarry\\yioop\\tests\\": [
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Pollett",
+                    "email": "chris@pollett.org"
+                }
+            ],
+            "description": "Search Engine Portal with Front-end, Indexer, Crawler, Wiki, and NLP libraries",
+            "homepage": "https://www.seekquarry.com/",
+            "time": "2016-03-07 21:01:42"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

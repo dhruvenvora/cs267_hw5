@@ -1,0 +1,53 @@
+[
+    {
+        "name": "seekquarry/yioop",
+        "version": "v3.4.0",
+        "version_normalized": "3.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "http://seekquarry.com/git/yioop.git",
+            "reference": "b354d86a1bd22066fac2f0235c9d81a4112d40b4"
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-gd": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "ext-pcre": "*",
+            "ext-pdo": "*",
+            "ext-pdo_sqlite": "*",
+            "ext-spl": "*",
+            "ext-zip": "*",
+            "lib-curl": "*",
+            "lib-libxml": "*",
+            "lib-pcre": "*",
+            "php": ">=5.4.0"
+        },
+        "time": "2016-03-07 21:01:42",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "seekquarry\\yioop\\": [
+                    "work_directory/app/",
+                    "src/"
+                ],
+                "seekquarry\\yioop\\tests\\": [
+                    "tests/"
+                ]
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPLv3"
+        ],
+        "authors": [
+            {
+                "name": "Chris Pollett",
+                "email": "chris@pollett.org"
+            }
+        ],
+        "description": "Search Engine Portal with Front-end, Indexer, Crawler, Wiki, and NLP libraries",
+        "homepage": "https://www.seekquarry.com/"
+    }
+]
