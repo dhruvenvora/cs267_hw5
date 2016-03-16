@@ -40,6 +40,7 @@ if (isset($argv) && count($argv) == 5) {
             $pr = new ProximityRank(count($keywords));
             $rankedDocs = $pr->rankProximity($word_map, $keywords, 0, $commonDocId);
         }
+        arsort($rankedDocs);
         print_r($rankedDocs);
     }
     else {

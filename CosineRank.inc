@@ -69,7 +69,6 @@ class CosineRank
         $magnitude = 0.0;
         foreach($word_map as $word => $listOfDocs){
             if(isset($word_map[$word][$docid]) == true){
-                print $word;
                 $w = $this->calculateWeight($word_map[$word], $docid);
                 $magnitude += pow($w, 2);
             }
@@ -91,6 +90,7 @@ class CosineRank
     }
     
     function findTF(&$word_docs, $docid){
+        print $docid."\n";
         $tf = count($word_docs[$docid]) * 1.0;//Converting to float
         if($tf > 0)
             $tf = log($tf, 2)+1;

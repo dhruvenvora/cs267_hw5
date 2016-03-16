@@ -29,7 +29,7 @@ if (isset($argv) && count($argv) == 5) {
         createIndex($files, $word_map, $tokenizationMethod);
         
         $keywords = explode(" ", $query);
-		$keywords = tokenize($keywords, $tokenizationMethod, true);
+		$keywords = tokenize($keywords, $tokenizationMethod);
         $commonDocId = findCommonDocuments($word_map, $keywords);
 		
         if ($rankingMethod == 'cosine'){
@@ -40,6 +40,7 @@ if (isset($argv) && count($argv) == 5) {
             $pr = new ProximityRank(count($keywords));
             $rankedDocs = $pr->rankProximity($word_map, $keywords, 0, $commonDocId);
         }
+        arsort($rankedDocs);
         print_r($rankedDocs);
     }
     else {
