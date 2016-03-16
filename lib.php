@@ -26,26 +26,37 @@ function createIndex(&$files, &$word_map, $tokenizationMethod){
         $words = explode(" ", $content);
         $count = count($words);
         for ($j=0;$j<$count;$j++) {
-			$processedWord;
+			
 			$word = filter($words[$j]);
-			if (strcmp($tokenizationMethod, "chargram") == 0) {
-				$processedWord = PhraseParser::getNGramsTerm(array($word),5, 0);
-			}
-			else if (strcmp($tokenizationMethod, "stem") == 0) {
-				$processedWord = PhraseParser::stemTerms(array($word),"en-US");
-			}
-			else {
-				$processedWord[$j] = $words[$j];
-			}
-			for ($index=0;$index<count($processedWord);$index++) {
-				$offset = $j + 1;
-				$f = $fil+1;
+			$processedWord = tokenize(array($word), $tokenizationMethod);	
+			$offset = $j + 1;
+			$f = $fil+1;
+			for ($index=0;$index<count($processedWord);$index++) {	
 				mapWord($word_map, $processedWord[$index], $offset, $f);
 			}
         }
     }
-	
-	#printMap($word_map);
+}
+
+/*
+This method applies tokenization on words.
+*/
+function tokenize($words, $tokenizationMethod){
+    $processedWord = array();
+            
+    for($j = 0;$j<count($words);$j++){
+        if ($tokenizationMethod == 'chargram') {
+		    $processedWord = PhraseParser::getNGramsTerm(array($words[$j]),5);
+	    }
+	    else if ($tokenizationMethod == 'stem') {
+		    $processedWord = PhraseParser::stemTerms(array($words[$j]),"en-US");
+	    }
+	    else {
+	      // no tokenization
+		    array_push($processedWord,$words[$j]);
+	    }
+	}
+	return $processedWord;
 }
 
 /*
@@ -157,7 +168,6 @@ function findCommonDocuments(&$word_map, &$keywords)
     $count = count($keywords);
     //Use document list from 0th word as a reference.
     $docidList = array_keys($word_map[$keywords[0]]);
-    
     $words = array();
     $commonDocId = array();    
     

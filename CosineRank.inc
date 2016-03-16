@@ -30,7 +30,6 @@ class CosineRank
 	
         foreach($keyword_map as $word => $count){
             $docs = array_keys($word_map[$word]);
-			print_r ($word_map[$word]);
             $docCount = count($docs);
             for($j=2;$j<$docCount;$j++){
                 if(isset($this::$doc_map[$docs[$j]]) == false){
@@ -70,6 +69,7 @@ class CosineRank
         $magnitude = 0.0;
         foreach($word_map as $word => $listOfDocs){
             if(isset($word_map[$word][$docid]) == true){
+                print $word;
                 $w = $this->calculateWeight($word_map[$word], $docid);
                 $magnitude += pow($w, 2);
             }

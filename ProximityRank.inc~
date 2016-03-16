@@ -66,6 +66,7 @@ class ProximityRank
         for($i=0;$i<$len;$i++){
             //Get a posting list for word in a document.
             $word_arr = $word_map[$words[$i]][$docid];
+
             $pos = $this->next($word_arr, $i, $currPos);
             if($pos == -1) {
                 return true;//No more covers are there.    
