@@ -28,11 +28,11 @@ class CosineRank
         
         $keyword_map = $this->selectUniqueKeywords($words);
 	
-        foreach($keyword_map as $word => $count){
+        foreach ($keyword_map as $word => $count) {
             $docs = array_keys($word_map[$word]);
             $docCount = count($docs);
-            for($j=2;$j<$docCount;$j++){
-                if(isset($this::$doc_map[$docs[$j]]) == false){
+            for ($j=2;$j<$docCount;$j++) {
+                if (isset($this::$doc_map[$docs[$j]]) == false) {
                     $this->calculateMagnitude($docs[$j], $word_map);
                 }
             }
@@ -54,7 +54,7 @@ class CosineRank
         $len = count($words);
 		
         for($i=0;$i<$len;$i++){
-            if(isset($keywords_map[$words[$i]]) == false){
+            if (isset($keywords_map[$words[$i]]) == false) {
                 $keywords_map[$words[$i]] = 1;
             } else {
                 $keywords_map[$words[$i]] = $keywords_map[$words[$i]] + 1;
@@ -68,7 +68,7 @@ class CosineRank
     {
         $magnitude = 0.0;
         foreach($word_map as $word => $listOfDocs){
-            if(isset($word_map[$word][$docid]) == true){
+            if (isset($word_map[$word][$docid]) == true) {
                 $w = $this->calculateWeight($word_map[$word], $docid);
                 $magnitude += pow($w, 2);
             }
@@ -90,10 +90,10 @@ class CosineRank
     }
     
     function findTF(&$word_docs, $docid){
-        print $docid."\n";
         $tf = count($word_docs[$docid]) * 1.0;//Converting to float
-        if($tf > 0)
+        if ($tf > 0) {
             $tf = log($tf, 2)+1;
+        }    
         
         return $tf;
     }

@@ -20,7 +20,7 @@ class ProximityRank
     */
     function __construct($totalWords) 
     {
-        for($i=0;$i<$totalWords;$i++){
+        for ($i=0;$i<$totalWords;$i++) {
             $this::$ind[$i] = 0; // start with the 0th index(not position)
         }
     }
@@ -37,20 +37,20 @@ class ProximityRank
     {
         $rankedDocs = array();
                 
-        for($i=0;$i<count($docs);$i++) {
+        for ($i=0;$i<count($docs);$i++) {
             $currPos = 0;
             $reachedEnd = false;
             $currDoc = $docs[$i];
             $this::$cover = array();
-            for($t=0;$t<count($words);$t++){
+            for ($t=0;$t<count($words);$t++) {
                 $this::$ind[$t] = 0; // start with the 0th index(not position)
             }
-            while($reachedEnd == false){
-                $reachedEnd = $this->nextCover($word_map, $words, $currDoc, $currPos);
+            while ($reachedEnd == false) {
+                $reachedEnd = $this->nextCover($word_map, $words, 
+                                                $currDoc, $currPos);
             }
             $rankedDocs[$currDoc] = $this->score();
         }
-        
         return $rankedDocs;
     }
     
@@ -65,17 +65,17 @@ class ProximityRank
     {
         $len = count($words);
         $v = 0;//this will store max position of query word in file.
-        for($i=0;$i<$len;$i++){
+        for ($i=0;$i<$len;$i++) {
             //Get a posting list for word in a document.
             $word_arr = $word_map[$words[$i]][$docid];
             $pos = $this->next($word_arr, $i, $currPos);     
             
-            if($pos == -1) {
+            if ($pos == -1) {
                 return true;//No more covers are there.    
             }
-            if($pos > $v)
+            if ($pos > $v) {
                 $v = $pos;
-                
+            }    
         }
         
         $endOfCover = $v+1;
@@ -86,16 +86,20 @@ class ProximityRank
             $word_arr = $word_map[$words[$i]][$docid];
             
             $pos = $this->prev($word_arr, $i, $endOfCover);
-            if($pos == -1)
+            if ($pos == -1) {
                 return true;
-            if($pos < $u)
+            }    
+            if ($pos < $u) {
                 $u = $pos;
+            }    
         }
         
         $len = count($this::$cover);
         
-        if($len > 1 && ($this::$cover[$len-1] == $u || $this::$cover[$len-2] == $v))
+        if ($len > 1 && ($this::$cover[$len-1] == $u 
+                     || $this::$cover[$len-2] == $v)) {
             return true;
+        }    
             
         array_push($this::$cover, $v);
         array_push($this::$cover, $u);
@@ -121,10 +125,9 @@ class ProximityRank
                 break;
             }
         }*/
-        if($i == -1) {
+        if ($i == -1) {
             return -1;
-        }
-        else {
+        } else {
             $this::$ind[$p] = $i;
             return $word_arr[$i];//actual position of the word in file.
         }
@@ -150,7 +153,7 @@ class ProximityRank
         if($i == $len)
             return -1;*/
         //$i--;//Found position just before current position
-        if($i < 0) {
+        if ($i < 0) {
             return -1;
         } else {
             $this::$ind[$p] = $i;
@@ -164,24 +167,23 @@ class ProximityRank
         $jump = 1;
         $i = $this::$ind[$p];
         $less = $i;
-        print $i." ".$p." ".$currPos."\n";
-        while($i < $len){
-            if($word_arr[$i] > $currPos){
+        while ($i < $len) {
+            if ($word_arr[$i] > $currPos) {
                 break;
-            }
-            else{
+            } else {
                 $less = $i;
                 $i += $jump;
                 $jump *= 2;
             }
         }
 
-        if($i >= $len){
+        if ($i >= $len) {
             $i = $len-1;
             //This condition ensures that we stop search if our current position
             //is greater than word occurance.
-            if($word_arr[$i] < $currPos)
+            if ($word_arr[$i] < $currPos) {
                 return -1;
+            }    
         }
 
         return $this->binarySearch($word_arr, $currPos, $less, $i);
@@ -193,21 +195,21 @@ class ProximityRank
         $jump = 1;
         $i = $this::$ind[$p];
         $less = $i;
-        while($i < $len){
-            if($word_arr[$i] > $currPos){
+        while ($i < $len) {
+            if ($word_arr[$i] > $currPos) {
                 break;
-            }
-            else{
+            } else {
                 $less = $i;
                 $i += $jump;
                 $jump *= 2;
             }
         }
 
-        if($i >= $len){
+        if ($i >= $len) {
             $i = $len-1;
-            if($word_arr[$i] < $currPos)
+            if ($word_arr[$i] < $currPos) {
                 return $i;
+            }    
         }
 
         return ($this->binarySearch($word_arr, $currPos, $less, $i) - 1);
@@ -216,19 +218,18 @@ class ProximityRank
     function binarySearch($word_arr, $currPos, $first, $last)
     {
         $i = (int)(($first + $last) / 2);
-        while($first < $last){
-            if($word_arr[$i]>$currPos){
+        while ($first < $last) {
+            if ($word_arr[$i]>$currPos) {
                 $last = $i-1;
-            }
-            else {
+            } else {
                 $first = $i+1;
             }
         }
-        if($first >= count($word_arr)){
+        if ($first >= count($word_arr)) {
             return -1;
-        }
-        else
+        } else {
             return $first;
+        }    
     }
 
     function score()

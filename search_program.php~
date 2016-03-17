@@ -27,12 +27,12 @@ if (isset($argv) && count($argv) == 5) {
     if (is_dir($dir)) {
         $files = glob($dir."/*.txt");
         createIndex($files, $word_map, $tokenizationMethod);
-        
+        //printMap($word_map);
         $keywords = explode(" ", $query);
 		$keywords = tokenize($keywords, $tokenizationMethod);
         $commonDocId = findCommonDocuments($word_map, $keywords);
 		
-        if ($rankingMethod == 'cosine'){
+        if ($rankingMethod == 'cosine') {
 			$fileCount = count($files);
             $cr = new CosineRank($fileCount);
             $rankedDocs = $cr->rankCosine($word_map, $keywords, 0);
@@ -42,8 +42,7 @@ if (isset($argv) && count($argv) == 5) {
         }
         arsort($rankedDocs);
         print_r($rankedDocs);
-    }
-    else {
+    } else {
         echo "Error! Not a directory.";
     }
 } else {

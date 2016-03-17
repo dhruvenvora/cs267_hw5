@@ -45,15 +45,16 @@ function tokenize($words, $tokenizationMethod){
     $processedWord = array();
             
     for($j = 0;$j<count($words);$j++){
+        $word = filter($words[$j]);
         if ($tokenizationMethod == 'chargram') {
-		    $processedWord = PhraseParser::getNGramsTerm(array($words[$j]),5);
+		    $processedWord = PhraseParser::getNGramsTerm(array($word),5);
 	    }
 	    else if ($tokenizationMethod == 'stem') {
-		    $processedWord = PhraseParser::stemTerms(array($words[$j]),"en-US");
+		    $processedWord = PhraseParser::stemTerms(array($word),"en-US");
 	    }
 	    else {
 	      // no tokenization
-		    array_push($processedWord,$words[$j]);
+		    array_push($processedWord,$word);
 	    }
 	}
 	return $processedWord;
