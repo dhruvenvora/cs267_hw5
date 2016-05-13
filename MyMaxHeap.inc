@@ -1,5 +1,5 @@
 <?php
-namespace HW2_Group\Hw2_composer;
+namespace HW5_Group\Hw5_composer;
 
 class MyMaxHeap extends \SplHeap
 {

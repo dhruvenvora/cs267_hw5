@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1ad699fd6bf7840d1734be48a61d476f",
-    "content-hash": "e583441fa3279a5d69f1b38932e90e18",
+    "hash": "a0d6818e5f7fc5233f8065038ae4be2e",
+    "content-hash": "ee7758d0253f8dd4983876781238cb2b",
     "packages": [
         {
             "name": "seekquarry/yioop",
