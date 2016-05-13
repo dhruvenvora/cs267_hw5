@@ -33,6 +33,7 @@ if (isset($argv) && count($argv) == 3) {
         natsort($files);
 
         createIndex($files, $word_map, $doc_map, "stem");
+        ksort($word_map);
         createPostingList($word_map, $doc_map, $secorndary_index, $output_file);
 
     } else {
