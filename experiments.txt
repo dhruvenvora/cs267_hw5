@@ -1,0 +1,5 @@
+The result of the experiments conducted show that although we 
+are changing  alpha it does not have a big effect on the scores 
+as the order is similar in most cases. Also, the best alpha value
+that is average value calculated is 0.26 which tells us that the 
+document rank is almost independent of the title of that document.  

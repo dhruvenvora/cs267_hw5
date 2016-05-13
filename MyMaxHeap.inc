@@ -1,7 +1,7 @@
 <?php
 namespace HW2_Group\Hw2_composer;
 
-class MyMaxHeap extends \SplMaxHeap
+class MyMaxHeap extends \SplHeap
 {
     /**
      * We modify the abstract method compare so we can sort our
@@ -11,8 +11,7 @@ class MyMaxHeap extends \SplMaxHeap
     {
         $values1 = array_values($array1);
         $values2 = array_values($array2);
-        return $values1[0] < $values2[0];
-        /*if ($values1[0] === $values2[0]) return 0;
-        return $values1[0] < $values2[0] ? -1 : 1;*/
+        if ($values1[0] === $values2[0]) return 0;
+        return $values1[0] < $values2[0] ? -1 : 1;
     }
 }

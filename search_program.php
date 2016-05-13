@@ -14,6 +14,9 @@ require_once 'vendor/autoload.php';
 if (!defined('seekquarry\\yioop\\configs\\PROFILE')) {
     define('seekquarry\\yioop\\configs\\PROFILE', true);
 }
+if (!defined("seekquarry\\yioop\\configs\\NO_LOGGING")) {
+    define("seekquarry\\yioop\\configs\\NO_LOGGING", true);
+}
 /*
 This program builds an inverted index of the documents listed in a directory and
 runs a search query on it.
@@ -31,9 +34,8 @@ if (isset($argv) && count($argv) == 6) {
     $word_map = [];
     if (is_dir($dir)) {
         $files = glob($dir."/*.html");
-        //createIndex($files, $word_map, $tokenizationMethod);
-        createHTMLIndex($files, $word_map, $rankingMethod, $tokenizationMethod);
-        //printMap($word_map);
+        natsort($files);
+        createHTMLIndex($files, $word_map, $rankingMethod, $tokenizationMethod, $docLengthMap);
 
         $keywords = explode(" ", $query);
 		    $keywords = tokenize($keywords, $tokenizationMethod);
@@ -42,25 +44,20 @@ if (isset($argv) && count($argv) == 6) {
         if ($rankingMethod == "bm25") {
             $totalDocs = count($files);
             $bm25 = new BM25Rank($word_map, $totalDocs);
-            $rankedDocs = $bm25->rankBM25($keywords, $docLengthMap, 0);
-            print_r($rankedDocs);
+            $rankedDocs = $bm25->rankBM25($keywords, $docLengthMap, 20);
+            printHeaps($rankedDocs);
         } else if ($rankingMethod == 'bm25f') {
-            createHTMLIndexBM25f($files, $word_map1, $word_map2, $tokenizationMethod);
+            createHTMLIndexBM25f($files, $word_map1, $word_map2, $tokenizationMethod, $docLengthMap1, $docLengthMap2);
 
             $totalDocs = count($files);
             $bm25f_1 = new BM25Rank($word_map1, $totalDocs);
-            $rankedDocs1 = $bm25f_1->rankBM25($keywords, $docLengthMap, 0);
+            $rankedDocs1 = $bm25f_1->rankBM25($keywords, $docLengthMap1, 100);
 
             $bm25f_2 = new BM25Rank($word_map2, $totalDocs);
-            $rankedDocs2 = $bm25f_2->rankBM25($keywords, $docLengthMap, 0);
+            $rankedDocs2 = $bm25f_2->rankBM25($keywords, $docLengthMap2, 100);
 
-            /*while ($rankedDocs1->valid()) {
-              list ($doc, $score) = each ($rankedDocs1->current());
-              echo $doc . ': ' . $score . PHP_EOL;
-              $rankedDocs1->next();
-            }*/
-            print_r($rankedDocs1);
-            print_r($rankedDocs2);
+            $rankedDocs = BM25Rank::calculateFinalScore($rankedDocs1, $rankedDocs2, $alpha);
+
         } else if ($rankingMethod == 'cosine') {
 			      $fileCount = count($files);
             $cr = new CosineRank($fileCount);
@@ -70,11 +67,11 @@ if (isset($argv) && count($argv) == 6) {
             $rankedDocs = $pr->rankProximity($word_map, $keywords, 0, $commonDocId);
         }
         arsort($rankedDocs);
-        //print_r($rankedDocs);
+        print_r($rankedDocs);
     } else {
         echo "Error! Not a directory.";
     }
 } else {
     print "Usage: php search_program <directory> <query> <ranking_method>"
-          ." <tokenization_method>\n";
+          ." <tokenization_method> <alpha>\n";
 }
