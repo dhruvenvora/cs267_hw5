@@ -108,11 +108,12 @@ function getPostingsFromWordMap (&$word_map, &$doc_map, &$offset_doc_map, &$post
             $diff = $offset_doc_map[$doc_id] - $prev;
             $gamma = toGammaCode($diff);
             $doc_list = $doc_list . $gamma;
-            $freq_list = $freq_list . pack("N", $freq);
+            $freq_list = $freq_list . toGammaCode($freq);
             $prev = $offset_doc_map[$doc_id];
         }
-        $len = strlen($doc_list);
-        $bin_posting_list = $bin_posting_list . pack("N", $len) . $doc_list . $freq_list;
+        $lenDoc = strlen($doc_list);
+        $lenFreq = strlen($freq_list);
+        $bin_posting_list = $bin_posting_list.pack("N",$lenDoc).$doc_list.pack("N",$lenFreq).$freq_list;
         $posting_map[$word] = $offset;
         $offset += strlen($bin_posting_list);
     }
