@@ -180,7 +180,7 @@ class ProximityRank
         if ($i >= $len) {
             $i = $len-1;
             //This condition ensures that we stop search if our current position
-            //is greater than word occurance.
+            //is greater than word occurrence.
             if ($word_arr[$i] < $currPos) {
                 return -1;
             }    
